@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:nounpal_frontend/privacy.dart';
@@ -6,7 +7,7 @@ import 'package:nounpal_frontend/terms.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());
-  runApp(const MyApp());
+  runApp(ModularApp(module: AppModule(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,13 +16,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeScreen(),
-        '/terms': (context) => const Terms(),
-        '/privacy': (context) => const Privacy(),
-      },
+    return MaterialApp.router(
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (context) => const HomeScreen(),
+      //   '/terms': (context) => const Terms(),
+      //   '/privacy': (context) => const Privacy(),
+      // },
       debugShowCheckedModeBanner: false,
       title: 'Nounpal',
     );
@@ -202,6 +205,18 @@ class HomeScreen extends StatelessWidget {
       ),
     ));
   }
+}
+
+class AppModule extends Module {
+  @override
+  List<Bind> get binds => [];
+
+  @override
+  List<ModularRoute> get routes => [
+        ChildRoute('/', child: (context, args) => const HomeScreen()),
+        ChildRoute('/terms', child: (context, args) => const Terms()),
+        ChildRoute('/privacy', child: (context, args) => const Privacy()),
+      ];
 }
 
 //Terms
