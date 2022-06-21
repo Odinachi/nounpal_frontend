@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       //   '/terms': (context) => const Terms(),
       //   '/privacy': (context) => const Privacy(),
       // },
+
       debugShowCheckedModeBanner: false,
       title: 'Nounpal',
     );
